@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew Guides</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Additional custom styles */
+
+    body {
+      background-color: rgb(244, 244, 244);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px; /* Adjust the maximum width as needed */
+      margin: 0 auto; /* Center horizontally */
+      padding: 0 15px; /* Add some padding for better appearance */
+    }
+
+    .dropdown-form,
+    .number-form,
+    .text-input-form {
+      width: 100%; /* Set width to 100% by default */
+    }
+
+    h1 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 25px;
+        text-align: center; 
+        margin-top: 40px; 
+        font-size: 60px;
+    }
+
+    .madewith {
+      text-align: center;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .dropdown-form,
+      .number-form,
+      .text-input-form {
+        max-width: 25%; /* Set max width to 25% on desktop */
+        margin: 0 auto; /* Center horizontally */
+      }
+    }
+
+    body h1 {
+      font-size: 40px;
+    }
+
+    .row {
+      margin-right: -10px; /* Adjust for negative margin added by Bootstrap */
+      margin-left: -10px; /* Adjust for negative margin added by Bootstrap */
+    }
+
+    .col-sm-6 {
+      padding-right: 10px; /* Adjust for column gutter */
+      padding-left: 10px; /* Adjust for column gutter */
+    }
+    
+    /* Add the following styles for the raised effect */
+    .raised-card {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://brewguides.co" style="text-decoration: none; color: #000000;">
+    <h1>
+    <img src="icon.png" alt="Brew Guides Logo" style="width: 70px;">
+    Brew Guides
+    </h1>
+  </a>
+  <p style ="text-align: center; font-size: 18px;">
+    make • better • coffee
+  </p>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mt-3 raised-card"> <!-- Add 'raised-card' class for raised effect -->
+          <div class="card-body">
+            <div class="form-container">
+              <form id="brew-form">
+                <div class="form-group">
+                  <label for="coffee-dropdown">Brew method</label>
+                  <select class="form-control" id="coffee-dropdown" required>
+                    <option value="" selected disabled hidden>Select a brew method</option>
+                    <option value="chemex">Chemex</option>
+                    <option value="aeropress">Aeropress</option>
+                    <option value="french-press">French Press</option>
+                    <option value="kalita-wave">Kalita Wave</option>
+                    <option value="automatic-drip" disabled>Automatic Drip / Machine (coming soon)</option>
+                    <option value="other" disabled>Others (coming soon)</option>
+                    <!-- Add more options as needed -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="number-of-servings">Number of Servings:</label>
+                  <input type="number" class="form-control" id="number-of-servings" placeholder="Enter number of servings" min="1" required>
+                </div>
+                <div class="form-group">
+                  <label for="grinder-dropdown">Select Your Grinder (optional):</label>
+                  <select class="form-control" id="grinder-dropdown">
+                    <option value="" selected disabled hidden>Grinder type</option>
+                    <option value="manual">Manual</option>
+                    <option value="electric">Electric</option>
+                    <option value="burr">Burr</option>
+                    <option value="conical_burr">Conical Burr</option>
+                    <option value="other">Other</option>
+                    <!-- Add more options as needed -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="coffee-brand">Coffee Brand (optional):</label>
+                  <input type="text" class="form-control" id="coffee-brand" placeholder="Enter coffee brand" maxlength="50">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <p class="madewith">
+            Made with &#10084 by David.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (Optional, only needed for certain components or features) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Function to handle form submission
+    document.getElementById("brew-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission behavior
+  
+      // Retrieve values from form
+      const brewMethod = document.getElementById("coffee-dropdown").value;
+      const servings = document.getElementById("number-of-servings").value;
+  
+      // Validate inputs (ensure they are not empty)
+      if (!brewMethod || !servings) {
+        alert("Please select a brew method and specify the number of servings.");
+        return; // Stop further execution if validation fails
+      }
+  
+      // Redirect user based on input
+      redirectToGuidePage(brewMethod, servings);
+    });
+  
+    // Function to determine the appropriate redirection URL based on brew method
+    function redirectToGuidePage(brewMethod, servings) {
+  let baseUrl = ""; // Initialize the base URL for redirection
+  let queryParams = `?servings=${encodeURIComponent(servings)}`; // General query parameters
+
+  switch (brewMethod) {
+    case "chemex":
+      baseUrl = "chemex.html";
+      break;
+    case "french-press":
+      baseUrl = "french-press.html";
+      break;
+    case "kalita-wave":
+      baseUrl = "kalita-wave.html";
+      break;
+    case "automatic-drip":
+      baseUrl = "automatic-drip.html";
+      break;
+    case "other":
+      baseUrl = "other_brew_method.html";
+      break;
+    case "aeropress": // Aeropress already handles servings, but shown for consistency
+    default:
+      baseUrl = "aeropress.html"; // Default to Aeropress if unspecified
+      break;
+  }
+
+  // Append servings query parameter for all cases if necessary, else just use the base URL
+  let redirectPage = baseUrl + queryParams; 
+  window.location.href = redirectPage;
+}
+
+  </script>
+  
+    
+    
+</body>
+</html>

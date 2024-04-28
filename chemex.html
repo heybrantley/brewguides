@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew Guides</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Additional custom styles */
+
+    body {
+      background-color: rgb(244, 244, 244);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px; /* Adjust the maximum width as needed */
+      margin: 0 auto; /* Center horizontally */
+      padding: 0 15px; /* Add some padding for better appearance */
+    }
+
+    .dropdown-form,
+    .number-form,
+    .text-input-form {
+      width: 100%; /* Set width to 100% by default */
+    }
+
+    h1 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 25px;
+        text-align: center; 
+        margin-top: 40px; 
+        font-size: 60px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: start;
+      justify-content: center;
+      gap: 40px;
+      margin: 40px 40px;
+    }
+
+    .container-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container-left p {
+      text-decoration: none;
+      color: grey;
+      font-size: 10px;
+    }
+
+    .container-left p a {
+      text-decoration: none;
+      color: grey;
+      font-size: 10px;
+    }
+
+    .container-image {
+      max-width: 300px;
+      border-radius: 10px;
+    }
+
+    .container-directions {
+      list-style-type: decimal;
+    }
+
+    .container-directions li {
+      margin-bottom: 10px; /* Adjust space between items */
+      line-height: 1.6; /* This controls the spacing within a list item */
+    }
+
+    .madewith {
+      text-align: center;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 767px) {
+      .container {
+        flex-direction: column; /* Stacks image and text vertically on small screens */
+        margin: 20px; /* Reduced margin for smaller screens */
+      }
+
+      .container-image {
+        max-width: 100%; /* Full width on small screens */
+        height: auto; /* Maintain aspect ratio */
+      }
+
+      .container-directions, .container-text {
+        font-size: 16px; /* Larger font size for readability */
+      }
+
+      h1 {
+        font-size: 30px; /* Smaller font size for headers on mobile */
+      }
+      
+      .col-md-auto {
+        flex: 0 0 100%; /* Make each information item take full width */
+        max-width: 100%; /* Ensure it doesn't exceed the container's width */
+      }
+    }
+  
+  </style>
+</head>
+<body>
+  <a href="https://brewguides.co" style="text-decoration: none; color: #000000;">
+    <h1>
+    <img src="icon.png" alt="Brew Guides Logo" style="width: 70px;">
+    Brew Guides
+    </h1>
+  </a>
+    <p style ="text-align: center; font-size: 18px;">
+    make • better • coffee
+    </p>
+
+    <div class="container">
+        <div class="container-left">
+          <img class="container-image" src="chemex.jpg">
+          <p>Photo by <a href="https://unsplash.com/@bygraceho?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Grace Ho</a>
+          </p>
+        </div>
+        <div class="container-right">
+          <h3 class="container-title">Chemex Recipe</h3>
+          <div class="container-fluid text-left mt-3">
+            <div class="row justify-content-md-left">
+              <div class="col-md-auto h6">
+                Servings: <span id="servings-count">1</span>
+              </div>
+              <div class="col-md-auto h6">
+                Coffee: <span id="coffee-amount">15</span> grams
+              </div>
+              <div class="col-md-auto h6">
+                Water: <span id="water-amount">250</span> grams
+              </div>
+              <div class="col-md-auto h6">
+                Water Temperature: 210°
+              </div>
+            </div>            
+          </div>
+          <p class="container-text">
+            <ol class="container-directions">
+              <li>Insert the filter, with three layers against the spout, and rinse. Be sure to empty the rinse water before brewing.</li>
+              <li>Grind coffee to medium grind and add freshly ground coffee to Chemex and shake to level the coffee bed.</li>
+              <li>Start timer and pour <span id="first-pour">260</span>g of water in 30 seconds, beginning in the center and working outward in concentric circles, then wait 30 more seconds.</li>
+              <li>At 1:00, pour to <span id="second-pour">520</span>g of water in 30 seconds.</li>
+              <li>At 2:30, pour in remaining <span id="final-pour">780</span>g of water in 30 seconds.</li>
+              <li>Coffee should drain by about 5:00.</li>
+            </ol>
+          </p>          
+          
+        </div>
+    </div>
+    <div class="footer">
+      <p class="madewith">
+        Made with &#10084 by David.
+      </p>
+    </div>
+
+    <script>
+      window.onload = function() {
+        function getQueryParam(param) {
+          var urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+    
+        var servings = getQueryParam('servings');
+        if (servings) {
+          document.getElementById('servings-count').textContent = servings;
+          updateCoffeeAndWater(servings);
+        }
+      }
+    
+      function updateCoffeeAndWater(servings) {
+        const baseCoffeePerServing = 15; // Base grams of coffee per serving
+        const baseTotalWater = 225; // Total grams of water for 1 serving
+    
+        const totalCoffee = baseCoffeePerServing * servings;
+        const totalWater = baseTotalWater * servings; // Scale total water with the number of servings
+    
+        // Update coffee and total water display
+        document.getElementById('coffee-amount').textContent = totalCoffee;
+        document.getElementById('water-amount').textContent = totalWater;
+    
+        // Calculate pour amounts based on servings
+        const firstPour = totalWater * (260 / 780); // Calculate first pour as a proportion of total water
+        const secondPour = totalWater * (260 / 780); // Same proportion for the second pour
+        const finalPour = totalWater - (firstPour + secondPour); // Remaining water for final pour
+    
+        // Update pour amounts in HTML
+        document.getElementById('first-pour').textContent = firstPour;
+        document.getElementById('second-pour').textContent = secondPour;
+        document.getElementById('final-pour').textContent = finalPour;
+      }
+    </script>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
